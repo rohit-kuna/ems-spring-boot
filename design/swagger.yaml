@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+  title: Employee Management API
+  version: 1.0.0
+  description: APIs for managing employees and their associations
+  contact:
+    name: Rohit Kuna
+    email: rohitkuna28@gmail.com
+
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: Employee
+  - name: Department
+
+paths:
+  /employees:
+    get:
+      tags:
+        - Employee
+      summary: Get all employees
+      description: Retrieve a list of all employees
+      operationId: getAllEmployees
+      responses:
+        '200':
+          description: A list of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeResult'
+    post:
+      tags:
+        - Employee
+      summary: Create a new employee
+      description: Add a new employee to the system
+      operationId: createEmployee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeRequest'
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResult'
+  /employees/{employeeId}:
+    get:
+      tags:
+        - Employee
+      summary: get employee by id
+      description: Gets an employee by id
+      operationId: getEmploeeById
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: fetched employee by id successfully
+          content:
+            appliction/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResult'
+    patch:
+      tags:
+        - Employee
+      summary: Update an existing employee
+      description: Update the details of an existing employee
+      operationId: updateEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeRequest'
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResult'
+    delete:
+      tags:
+        - Employee
+      summary: Delete an existing employee
+      description: Delete an employee by id
+      operationId: deleteEmployeeById
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: successfully deleted an employee
+components:
+  schemas:
+    EmployeeResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: 'john.doe@example.com'
+        passport:
+          $ref: '#/components/schemas/PassportResult'
+        department:
+          $ref: '#/components/schemas/DepartmentResult'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressResult'
+    AddressResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        houseNumber:
+          type: integer
+          example: 123
+        street:
+          type: string
+          example: 'Main Street'
+        city:
+          type: string
+          example: 'Springfield'
+        state:
+          type: string
+          example: 'IL'
+        country:
+          type: string
+          example: 'USA'
+        zipCode:
+          type: string
+          example: '62704'
+        addressType:
+          $ref: '#/components/schemas/AddressType'
+    AddressType:
+      type: string
+      enum:
+        - HOME
+        - OFFICE
+    DepartmentResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'Engineering'
+    PassportResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        passportNumber:
+          type: string
+          example: 'A12345678'
+        dateOfIssue:
+          type: string
+          format: date
+          example: '2025-12-31'
+        dateOfExpiry:
+          type: string
+          format: date
+          example: '2035-12-31'
+    EmployeeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: 'johndoe@gmail.com'
+        passport:
+          $ref: '#/components/schemas/PassportRequest'
+        departmentId:
+          type: integer
+          example: 1
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressRequest'
+    AddressRequest:
+      type: object
+      properties:
+        houseNumber:
+          type: integer
+          example: 123
+        street:
+          type: string
+          example: 'Main Street'
+        city:
+          type: string
+          example: 'Springfield'
+        state:
+          type: string
+          example: 'IL'
+        country:
+          type: string
+          example: 'USA'
+        zipCode:
+          type: string
+          example: '62704'
+        addressType:
+          $ref: '#/components/schemas/AddressType'
+    PassportRequest:
+      type: object
+      properties:
+        passportNumber:
+          type: string
+          example: 'A12345678'
+        dateOfIssue:
+          type: string
+          format: date
+          example: '2025-12-31'
+        dateOfExpiry:
+          type: string
+          format: date
+          example: '2035-12-31'
+
+
+
