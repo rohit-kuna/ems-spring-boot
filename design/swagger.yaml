@@ -13,6 +13,8 @@ servers:
 tags:
   - name: Employee
   - name: Department
+  - name: Project
+  - name: Training
 
 paths:
   /employees:
@@ -110,6 +112,345 @@ paths:
       responses:
         204:
           description: successfully deleted an employee
+
+  /departments:
+    get:
+      summary: get all departments
+      description: get all existing departments
+      operationId: getAllDepartments
+      responses:
+        200:
+          description: fetched all departments successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepartmentResult'
+    post:
+      summary: create a department
+      description: create a new department
+      operationId: createDepartment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentRequest'
+      responses:
+        201:
+          description: created a department successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentResult'
+  /departments/{departmentId}:
+    get:
+      tags:
+        - Department
+      summary: get a department by id
+      description: get a department by id
+      operationId: getDepartmentById
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: fetched a department by id successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentResult'
+    patch:
+      tags:
+        - Department
+      summary: update a department
+      description: update a department by id
+      operationId: updateDepartment
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentRequest'
+      responses:
+        204:
+          description: updated a department by id successfully
+  /projects:
+    get:
+      tags:
+        - Project
+      summary: get all projects
+      description: get all existing projects
+      operationId: getAllProjects
+      responses:
+        200:
+          description: fetched all projects successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectResult'
+    post:
+      tags:
+        - Project
+      summary: create a project
+      description: create a new project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        201:
+          description: created a project successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResult'
+  /projects/{projectId}:
+    get:
+      tags:
+        - Project
+      summary: get project by id
+      description: get an existing project by id
+      operationId: getProjectById
+      parameters:
+        - name: projectId
+          in : path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: fetched project by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResult'
+    patch:
+      tags:
+        - Project
+      summary: update a project by id
+      description: update an existing project by id
+      operationId: updateProjectById
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: updated a project by id successfully
+    delete:
+      tags:
+        - Project
+      summary: delete a project by id
+      description: delete an existing project by id
+      operationId: deleteProjectById
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: deleted a project by id successfully
+  /trainings:
+    get:
+      tags:
+        - Training
+      summary: get all trainings
+      description: get all existing trainings
+      operationId: getAllTrainings
+      responses:
+        200:
+          description: fetched all trainings successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingResult'
+    post:
+      tags:
+        - Training
+      summary: create a new training
+      description: create a new training
+      operationId: createTraining
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingRequest'
+      responses:
+        201:
+          description: training created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingResult'
+  /trainings/{trainingId}:
+    get:
+      tags:
+        - Training
+      summary: get training by id
+      description: get an existing training by id
+      operationId: getTrainingById
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: fetched training by id successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingResult'
+    patch:
+      tags:
+        - Training
+      summary: update training details
+      description: update training details by id
+      operationId: updateTrainingById
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingRequest'
+      responses:
+        204:
+          description: training updated successfully
+  /trainings/{trainingId}/deactivate:
+    patch:
+      tags:
+        - Training
+      summary: deactivate training
+      description: deactivate training by id
+      operationId: deactivateTrainingById
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: training deactivated successfully
+
+  # association endpoints
+  /employees/{employeeId}/projects:
+    get:
+      tags:
+        - Employee
+      summary: get all projects assigned to an employee
+      description: get all projects assigned to employee
+      operationId: getAllProjectsAssignedToEmployeeId
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successfully fetched all projects assigned to employee
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectResult'
+  /projects/{projectId}/employees:
+    get:
+      tags:
+        - Project
+      summary: get all employees under a project
+      description: get all employees under a project
+      operationId: getAllEmployeesUnderProjectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: fetched all employees under a project successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeResult'
+  /employees/{employeeId}/project/{projectId}/assign:
+    post:
+      tags:
+        - Employee
+      summary: assign a project to an employee
+      description: assign a project to an employee
+      operationId: assign an existing project to an employee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        202:
+          description: successfully assigned project to an employee
+  /employees/{employeeId}/project/{projectId}/unassign:
+    post:
+      tags:
+        - Employee
+      summary: unassign a project from an employee
+      description: unassign a project from an employee
+      operationId: unassign a project from an employee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        202:
+          description: successfully unassigned a project from an employee
+
 components:
   schemas:
     EmployeeResult:
@@ -244,6 +585,51 @@ components:
           type: string
           format: date
           example: '2035-12-31'
+    DepartmentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: HR
+    ProjectResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1001
+        name:
+          type: string
+          example: Telekom
+    ProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: DTAG
+    TrainingResult:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 501
+        name:
+          type: string
+          example: Spring Boot Advanced
+        domain:
+          type: string
+          example: Backend
+        active:
+          type: boolean
+          example: true
+    TrainingRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Spring Boot Advanced
+        domain:
+          type: string
+          example: Backend
 
 
 

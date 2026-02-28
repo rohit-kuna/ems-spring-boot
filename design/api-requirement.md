@@ -27,17 +27,19 @@ Functionalities : Think of APIs as functionalities not CRUD as basic CRUD method
     - get all departments, GET - /departments
     - create new department, POST - /departments
     - get department by id, POST - /departments/{id}
+    - update a department, PATCH - /departments/{id}
 - project :
     - get all projects, GET - /projects
     - create new project, POST - /projects
     - get project by id, GET - /projects/{id}
+    - update a project by id, PATCH - /projects/{id}
     - delete a project by id, DELETE - /projects/{id}
 - training :
     - get all trainings, GET - /trainings
     - create a new training, POST - /trainings
     - get training by id, GET - /trainings/{id}
     - update training details by id, PATCH - /trainings/{id}
-    - deactivate training by id, - PATCH - /tranings/{id}
+    - deactivate training by id, - PATCH - /trainings/{id}/deactivate
 
 ## Associations functions needed :
 - employee_projects :
