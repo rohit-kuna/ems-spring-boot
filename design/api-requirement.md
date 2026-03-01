@@ -22,11 +22,11 @@ Functionalities : Think of APIs as functionalities not CRUD as basic CRUD method
     - get by id, GET - /employees/{employeId}
     - update by id, PATCH - /employees/{employeId}
     - delete by id. DELETE - /employees/{employeId}
-    - reqBody : should include address and passport details
+        - reqBody : should include address and passport details
 - department :
     - get all departments, GET - /departments
     - create new department, POST - /departments
-    - get department by id, POST - /departments/{departmentId}
+    - get department by id, GET - /departments/{departmentId}
     - update a department, PATCH - /departments/{departmentId}
 - project :
     - get all projects, GET - /projects
@@ -45,8 +45,8 @@ Functionalities : Think of APIs as functionalities not CRUD as basic CRUD method
 - employee_projects :
     - get all projects assigned to an employee, GET - /employees/{employeeId}/projects
     - view all employees under a project, GET - /projects/{projectid}/employees
-    - assign project to an employee, POST - /employees/{employeeId}/projects/{projectId}/assign
-    - unassign project to an employee, DELETE - /employees/{employeeId}/projects/{projectId}/unassign
+    - assign project to an employee, POST - /employees/{employeeId}/projects/{projectId}
+    - unassign project to an employee, DELETE - /employees/{employeeId}/projects/{projectId}
 - employee_training
     - view trainings assigned to an employee, GET - /employees/{employeeId}/trainings
     - update the training details for an employee, PATCH - /employees/{employeeId}/trainings/{trainingId}
