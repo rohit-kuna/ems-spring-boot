@@ -456,7 +456,7 @@ paths:
           schema:
             type: integer
       responses:
-        202:
+        204:
           description: successfully unassigned a project from an employee
 
 # employee trainings association
