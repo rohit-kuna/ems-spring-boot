@@ -46,7 +46,7 @@ CREATE TABLE training (
 	id BIGINT PRIMARY KEY,
 	name VARCHAR(255) UNIQUE NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
-    domain VARCHAR(255) NOT NULL
+    domain VARCHAR(255)
 );
 
 /*Association table with data*/
@@ -55,7 +55,8 @@ CREATE TABLE employee_training_lookup (
 	fk_training_id BIGINT REFERENCES training(id) ON DELETE CASCADE,
 	start_date DATE,
 	end_date DATE,
-	CONSTRAINT employee_training_unique UNIQUE (fk_employee_id, fk_training_id)
+	CONSTRAINT employee_training_pk PRIMARY KEY (fk_employee_id, fk_training_id),
+    CONSTRAINT employee_training_date_check CHECK (end_date IS NULL OR end_date >= start_date)
 )
 
 /*D*/
