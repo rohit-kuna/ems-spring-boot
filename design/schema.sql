@@ -51,20 +51,18 @@ CREATE TABLE training (
 
 /*Association table with data*/
 CREATE TABLE employee_training_lookup (
-		id BIGINT PRIMARY KEY, -- surrogate key
-		fk_employee_id BIGINT REFERENCES employee(id) ON DELETE CASCADE,
-		fk_training_id BIGINT REFERENCES training(id) ON DELETE CASCADE,
-		start_date DATE,
-		end_date DATE,
-
-		CONSTRAINT employee_training_unique UNIQUE (fk_employee_id, fk_training_id)
+	fk_employee_id BIGINT REFERENCES employee(id) ON DELETE CASCADE,
+	fk_training_id BIGINT REFERENCES training(id) ON DELETE CASCADE,
+	start_date DATE,
+	end_date DATE,
+	CONSTRAINT employee_training_unique UNIQUE (fk_employee_id, fk_training_id)
 )
 
 /*D*/
 CREATE TABLE employee_project (
-		fk_employee_id BIGINT NOT NULL REFERENCES employee(id) ON DELETE CASCADE,
-		fk_project_id BIGINT NOT NULL REFERENCES project(id) ON DELETE CASCADE,
-		CONSTRAINT employee_project_fk PRIMARY KEY (fk_employee_id, fk_project_id)
+	fk_employee_id BIGINT NOT NULL REFERENCES employee(id) ON DELETE CASCADE,
+	fk_project_id BIGINT NOT NULL REFERENCES project(id) ON DELETE CASCADE,
+	CONSTRAINT employee_project_fk PRIMARY KEY (fk_employee_id, fk_project_id)
 );
 
 -- adding foreign keys

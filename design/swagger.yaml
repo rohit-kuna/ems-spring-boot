@@ -17,6 +17,7 @@ tags:
   - name: Training
 
 paths:
+# employee resource endpoints
   /employees:
     get:
       tags:
@@ -112,9 +113,11 @@ paths:
       responses:
         204:
           description: successfully deleted an employee
-
+# department resource endpoints
   /departments:
     get:
+      tags:
+        - Department
       summary: get all departments
       description: get all existing departments
       operationId: getAllDepartments
@@ -128,6 +131,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/DepartmentResult'
     post:
+      tags:
+        - Department
       summary: create a department
       description: create a new department
       operationId: createDepartment
@@ -185,6 +190,8 @@ paths:
       responses:
         204:
           description: updated a department by id successfully
+
+# projects resource endpoints
   /projects:
     get:
       tags:
@@ -270,6 +277,8 @@ paths:
       responses:
         204:
           description: deleted a project by id successfully
+
+# training resource endpoints
   /trainings:
     get:
       tags:
@@ -363,7 +372,7 @@ paths:
         204:
           description: training deactivated successfully
 
-  # association endpoints
+# employee projects association
   /employees/{employeeId}/projects:
     get:
       tags:
@@ -408,7 +417,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EmployeeResult'
-  /employees/{employeeId}/project/{projectId}/assign:
+  /employees/{employeeId}/projects/{projectId}:
     post:
       tags:
         - Employee
@@ -427,10 +436,9 @@ paths:
           schema:
             type: integer
       responses:
-        202:
+        204:
           description: successfully assigned project to an employee
-  /employees/{employeeId}/project/{projectId}/unassign:
-    post:
+    delete:
       tags:
         - Employee
       summary: unassign a project from an employee
@@ -450,6 +458,102 @@ paths:
       responses:
         202:
           description: successfully unassigned a project from an employee
+
+# employee trainings association
+  /employees/{employeeId}/trainings:
+    get:
+      tags:
+        - Employee
+      summary: get all trainings assigned to the employee
+      description: get all trainings assigned to the existing employee
+      operationId: getAllTrainingsAsignedToEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: fetched all trainings assigned to employee successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeTrainingDetailsResult'
+  /employees/{employeeId}/trainings/{trainingId}:
+    patch:
+      tags:
+        - Employee
+      summary: update details of a training assigned to an employee
+      description: update details of a training assigned to an employee
+      operationId: updateTrainingDetailsForAnEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeTrainingDetailsRequest'
+      responses:
+        204:
+          description: updated the details of training successfully
+    post:
+      tags:
+        - Employee
+      summary: assign a training to an employee
+      description: assign an existing training to an employee
+      operationId: assignTrainingToEmployee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeTrainingDetailsRequest'
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: assigned trainings to employee successfully
+    delete:
+      tags:
+        - Employee
+      summary: unassign a training for an employee
+      description: unassign an existing training for an employee
+      operationId: unassignTrainingForEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: trainingId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: unassigned trainings to employee successfully
 
 components:
   schemas:
@@ -630,6 +734,35 @@ components:
         domain:
           type: string
           example: Backend
+    EmployeeTrainingDetailsResult:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Java SpringBoot training
+        domain:
+          type: string
+          example: Fullstack
+        startDate:
+          type: string
+          format: date
+          example: '2024-12-31'
+        endDate:
+          type: string
+          format: date
+          example: '2025-12-8'
+    EmployeeTrainingDetailsRequest:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+          example: '2024-12-31'
+        endDate:
+          type: string
+          format: date
+          example: '2025-12-8'
+
 
 
 
