@@ -46,7 +46,7 @@ public class Employee {
     @OneToMany(mappedBy="employee", cascade = CascadeType.ALL)
     private List<Address> addresses;
 
-    @OneToOne(mappedBy="passport", cascade=CascadeType.ALL)
+    @OneToOne(mappedBy="employee", cascade=CascadeType.ALL)
     private Passport passport;
 
     @ManyToMany(fetch=FetchType.LAZY)
